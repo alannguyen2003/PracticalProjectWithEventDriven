@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Abstraction\Behaviours\" />
+      <Folder Include="Abstraction\Messsaging\" />
+      <Folder Include="Features\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.14" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.14" />
+      <PackageReference Include="Scrutor" Version="7.0.0" />
+      <PackageReference Include="Serilog" Version="4.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PracticalProject.Domain\PracticalProject.Domain.csproj" />
+      <ProjectReference Include="..\PracticalProject.SharedKernel\PracticalProject.SharedKernel.csproj" />
+    </ItemGroup>
+
+</Project>
