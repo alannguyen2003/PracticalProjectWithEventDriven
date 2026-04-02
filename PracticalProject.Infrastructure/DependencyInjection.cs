@@ -43,8 +43,8 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>(
             options => options
-                .UseSqlServer(connectionString, npgsqlOptions =>
-                    npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
+                .UseSqlServer(connectionString, sqlServerOptions =>
+                    sqlServerOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
@@ -72,9 +72,7 @@ public static class DependencyInjection
                         return Task.CompletedTask;
                     }
                 };
-                /*
                 o.RequireHttpsMetadata = false;
-                */
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)),
