@@ -39,12 +39,11 @@ public static class DependencyInjection
     
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("Database");
+        string? connectionString = configuration.GetConnectionString("WriteDb");
 
         services.AddDbContext<ApplicationDbContext>(
             options => options
-                .UseSqlServer(connectionString, sqlServerOptions =>
-                    sqlServerOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
+                .UseSqlServer(connectionString)
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());

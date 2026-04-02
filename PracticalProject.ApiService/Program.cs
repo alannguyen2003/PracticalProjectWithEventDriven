@@ -1,24 +1,56 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Reflection;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using PracticalProject.ApiService;
+using PracticalProject.ApiService.Extensions;
+using PracticalProject.Application;
+using PracticalProject.Infrastructure;
+using Serilog;
 
-// Add service defaults & Aspire client integrations.
-builder.AddServiceDefaults();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddProblemDetails();
+builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGenWithAuth();
 
-var app = builder.Build();
+builder.Services
+    .AddApplication()
+    .AddPresentation()
+    .AddInfrastructure(builder.Configuration);
 
-// Configure the HTTP request pipeline.
-app.UseExceptionHandler();
+builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+
+WebApplication app = builder.Build();
+
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwaggerWithUi();
+
+    app.ApplyMigrations();
+
+    app.MapGet("/", () => Results.Redirect("/swagger"));
 }
 
-app.MapDefaultEndpoints();
+app.UseRequestContextLogging();
 
-app.Run();
+app.UseSerilogRequestLogging();
+
+app.UseExceptionHandler();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+app.MapEndpoints();
+
+
+// REMARK: If you want to use Controllers, you'll need this.
+app.MapControllers();
+
+await app.RunAsync();
+
+// REMARK: Required for functional and integration tests to work.
+namespace Web.Api
+{
+    public partial class Program;
+}

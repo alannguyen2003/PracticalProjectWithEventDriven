@@ -1,23 +1,23 @@
 ﻿using PracticalProject.ApiService.Extensions;
 using PracticalProject.ApiService.Infrastructure;
 using PracticalProject.Application.Abstraction.Messaging;
-using PracticalProject.Application.Features.Todos.Get;
+using PracticalProject.Application.Features.Todos.GetById;
 using PracticalProject.SharedKernel;
 
 namespace PracticalProject.ApiService.Endpoints.Todos;
 
-public sealed class Get : IEndpoint
+public sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("todos", async (
-                Guid userId,
-                IQueryHandler<GetTodosQuery, List<TodoResponse>> handler,
+        app.MapGet("todos/{id:guid}", async (
+                Guid id,
+                IQueryHandler<GetTodoByIdQuery, TodoResponse> handler,
                 CancellationToken cancellationToken) =>
             {
-                var query = new GetTodosQuery(userId);
+                var command = new GetTodoByIdQuery(id);
 
-                Result<List<TodoResponse>> result = await handler.Handle(query, cancellationToken);
+                Result<TodoResponse> result = await handler.Handle(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResult.Problem);
             })

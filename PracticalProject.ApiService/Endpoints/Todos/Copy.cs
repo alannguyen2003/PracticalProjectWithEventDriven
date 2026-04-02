@@ -1,37 +1,31 @@
 ﻿using PracticalProject.ApiService.Extensions;
 using PracticalProject.ApiService.Infrastructure;
 using PracticalProject.Application.Abstraction.Messaging;
-using PracticalProject.Application.Features.Todos.Create;
-using PracticalProject.Domain;
+using PracticalProject.Application.Features.Todos.Copy;
 using PracticalProject.SharedKernel;
 
 namespace PracticalProject.ApiService.Endpoints.Todos;
 
-public sealed class Create : IEndpoint
+public sealed class Copy : IEndpoint
 {
     public sealed class Request
     {
         public Guid UserId { get; set; }
-        public string Description { get; set; }
-        public DateTime? DueDate { get; set; }
-        public List<string> Labels { get; set; } = [];
-        public int Priority { get; set; }
+        public Guid TodoId { get; set; }
     }
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("todos", async (
+        app.MapPost("todos/{todoId}/copy", async (
+                Guid todoId,
                 Request request,
-                ICommandHandler<CreateTodoCommand, Guid> handler,
+                ICommandHandler<CopyTodoCommand, Guid> handler,
                 CancellationToken cancellationToken) =>
             {
-                var command = new CreateTodoCommand
+                var command = new CopyTodoCommand
                 {
                     UserId = request.UserId,
-                    Description = request.Description,
-                    DueDate = request.DueDate,
-                    Labels = request.Labels,
-                    Priority = (Priority)request.Priority
+                    TodoId = todoId
                 };
 
                 Result<Guid> result = await handler.Handle(command, cancellationToken);

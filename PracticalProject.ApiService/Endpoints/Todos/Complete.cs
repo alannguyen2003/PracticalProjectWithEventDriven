@@ -1,25 +1,25 @@
 ﻿using PracticalProject.ApiService.Extensions;
 using PracticalProject.ApiService.Infrastructure;
 using PracticalProject.Application.Abstraction.Messaging;
-using PracticalProject.Application.Features.Todos.Get;
+using PracticalProject.Application.Features.Todos.Complete;
 using PracticalProject.SharedKernel;
 
 namespace PracticalProject.ApiService.Endpoints.Todos;
 
-public sealed class Get : IEndpoint
+public sealed class Complete : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("todos", async (
-                Guid userId,
-                IQueryHandler<GetTodosQuery, List<TodoResponse>> handler,
+        app.MapPut("todos/{id:guid}/complete", async (
+                Guid id,
+                ICommandHandler<CompleteTodoCommand> handler,
                 CancellationToken cancellationToken) =>
             {
-                var query = new GetTodosQuery(userId);
+                var command = new CompleteTodoCommand(id);
 
-                Result<List<TodoResponse>> result = await handler.Handle(query, cancellationToken);
+                Result result = await handler.Handle(command, cancellationToken);
 
-                return result.Match(Results.Ok, CustomResult.Problem);
+                return result.Match(Results.NoContent, CustomResult.Problem);
             })
             .WithTags(Tags.Todos)
             .RequireAuthorization();
