@@ -1,0 +1,6 @@
+@ReadProject.ApiService_HostAddress = http://localhost:5033
+
+GET {{ReadProject.ApiService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
