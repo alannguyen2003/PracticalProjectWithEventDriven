@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "product-service", "product-service", "{BEBD7A16-6200-4CBE-8DC6-2425B59B7DCA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "read-service", "read-service", "{BEBD7A16-6200-4CBE-8DC6-2425B59B7DCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PracticalProject.SharedKernel", "PracticalProject.SharedKernel\PracticalProject.SharedKernel.csproj", "{E9A27C7B-EB1C-452F-95A6-357442F865BB}"
 EndProject
