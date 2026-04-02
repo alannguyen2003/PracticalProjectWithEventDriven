@@ -7,9 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Abstraction\Behaviours\" />
-      <Folder Include="Abstraction\Messsaging\" />
-      <Folder Include="Features\" />
+      <Folder Include="Features\Todos\" />
+      <Folder Include="Features\Users\" />
     </ItemGroup>
 
     <ItemGroup>
