@@ -7,15 +7,20 @@ var kafka = builder.AddKafka("kafka")
     .WithKafkaUI();
 
 var writeDb = sqlServer.AddDatabase("WriteDb");
-var apiService = builder.AddProject<Projects.PracticalProject_ApiService>("apiservice")
+var readDb = sqlServer.AddDatabase("ReadDb");
+
+var readApiService = builder.AddProject<Projects.ReadProject_ApiService>("readservice")
+    .WithReference(readDb)
+    .WithReference(kafka)
+    .WaitFor(readDb)
+    .WaitFor(kafka);
+var writeApiService = builder.AddProject<Projects.PracticalProject_ApiService>("apiservice")
     /*
     .WithHttpHealthCheck("/health")
     */
-    .WithReference(redis)
     .WithReference(kafka)
     .WithReference(writeDb)
     .WaitFor(writeDb)
-    .WaitFor(kafka)
-    .WaitFor(redis);
+    .WaitFor(kafka);
 
 builder.Build().Run();

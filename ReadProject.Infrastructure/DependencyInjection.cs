@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using PracticalProject.Infrastructure.Authentication;
-using PracticalProject.Infrastructure.Database;
 using PracticalProject.Infrastructure.Time;
 using PracticalProject.SharedKernel;
 using ReadProject.Application.Abstraction.Authentication;
@@ -17,7 +15,7 @@ using ReadProject.Infrastructure.Authorization;
 using ReadProject.Infrastructure.Database;
 using ReadProject.Infrastructure.DomainEvents;
 
-namespace PracticalProject.Infrastructure;
+namespace ReadProject.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -41,7 +39,7 @@ public static class DependencyInjection
     
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("WriteDb");
+        string? connectionString = configuration.GetConnectionString("ReadDb");
 
         services.AddDbContext<ApplicationDbContext>(
             options => options

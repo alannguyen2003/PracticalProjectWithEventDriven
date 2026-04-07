@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\PracticalProject.ApiService\PracticalProject.ApiService.csproj"/>
+        <ProjectReference Include="..\ReadProject.ApiService\ReadProject.ApiService.csproj" />
     </ItemGroup>
 
     <ItemGroup>
